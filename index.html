@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Chanakya Education</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f9f9f9;
+        }
+        header {
+            background-color: #fff;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0d6efd;
+            background-color: #e8f0fe;
+            padding: 5px 15px;
+            border-radius: 5px;
+        }
+        nav a {
+            margin-left: 20px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+        }
+        nav a:hover { color: #0d6efd; }
+        .hero { padding: 40px; }
+        .hero-text { flex: 1; min-width: 300px; }
+        .hero-text h1 {
+            font-size: 38px;
+            color: #0d6efd;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .hero-text p { font-size: 18px; color: #444; }
+        .hero img { width: 300px; max-width: 50%; height: auto; margin-left: 0; margin-top: 0; }
+        section { padding: 60px 40px; }
+        h2 { color: #0d6efd; margin-bottom: 20px; font-family: 'Segoe UI', sans-serif; }
+        h3, h4 { font-family: 'Segoe UI', sans-serif; }
+        .team, .contact { display: flex; flex-wrap: wrap; gap: 30px; }
+        .team-member {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+            width: 250px;
+        }
+        .team-member h4 { margin: 0; }
+        .courses { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; margin-top: 20px; }
+        .course-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            padding: 20px;
+            width: 280px;
+            text-align: center;
+        }
+        .course-card img { width: 120px; margin-top: 10px; }
+        a.course-link { text-decoration: none; color: #0d6efd; font-weight: bold; }
+        a.linkedin { color: #0d6efd; text-decoration: none; font-size: 14px; }
+        a.linkedin:hover { text-decoration: underline; }
+        footer { background: #0d6efd; color: white; padding: 20px; text-align: center; }
+        .companies-img { max-width: 600px; width: 90%; }
+
+        .course-section-box {
+            background-color: #e8f0fe;
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        /* --- News Ticker Styles --- */
+        .news-ticker-container { width: 100%; overflow: hidden; background-color: #E0F7FA; padding: 10px 0; margin-bottom: 30px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); border-radius: 5px; }
+        .news-ticker { white-space: nowrap; animation: scroll-left 20s linear infinite; display: inline-block; transform: translateX(100%); }
+        .news-ticker span { display: inline-block; padding-right: 50px; font-size: 16px; color: #333; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+        .news-ticker span:last-child { padding-right: 0; }
+        .news-ticker a { color: #0d6efd; text-decoration: none; font-weight: bold; }
+        .news-ticker a:hover { text-decoration: underline; }
+        @keyframes scroll-left {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* ====== New gallery styles (three images with cylindrical/3D background effect) ====== */
+        .photo-stage {
+            position: relative;
+            margin: 30px auto 60px;
+            max-width: 1100px;
+            height: 340px;
+            perspective: 1400px; /* gives depth for 3D transforms */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* subtle cylindrical/curved backdrop behind the whole block */
+        .photo-stage::before {
+            content: "";
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 85%;
+            height: 70%;
+            border-radius: 50% / 18%;
+            background: linear-gradient(180deg, rgba(13,110,253,0.06), rgba(13,110,253,0.02));
+            filter: blur(18px);
+            z-index: 0;
+        }
+
+        .carousel {
+            width: 100%;
+            max-width: 980px;
+            height: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            transform-style: preserve-3d;
+            z-index: 2;
+            padding: 10px 20px;
+            box-sizing: border-box;
+        }
+
+        .photo-card {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 400ms cubic-bezier(.2,.9,.3,1), filter 300ms ease, box-shadow 300ms ease;
+            transform-origin: center center;
+            background: transparent;
+            position: relative;
+            box-shadow: 0 12px 30px rgba(15,23,42,0.08);
+        }
+
+        .photo-card img {
+            display: block;
+            max-width: none; /* allow full image width */
+            max-height: none; /* allow full image height */
+        }
+
+        /* Center image larger, no scaling limit */
+        .photo-card.center {
+            transform: translateZ(120px) rotateY(0deg) rotate(-1deg);
+            z-index: 5;
+            box-shadow: 0 20px 50px rgba(15,23,42,0.18);
+        }
+        .photo-card.center img {
+            width: 2048px;
+            height: 256px;
+            max-width: 100%;
+            max-height: 100%;
+
+        }
+
+        /* Side images same original size but blurred/angled */
+        .photo-card.side {
+            transform: translateZ(0px) rotateY(18deg) rotate(-12deg);
+            filter: blur(3px) saturate(0.9) contrast(0.98);
+            opacity: 0.78;
+            z-index: 3;
+        }
+        .photo-card.side.right {
+            transform: translateX(8%) translateZ(-20px) rotateY(-18deg) rotate(12deg);
+        }
+        .photo-card.side.left {
+            transform: translateX(-8%) translateZ(-20px) rotateY(18deg) rotate(-12deg);
+        }
+
+
+        .photo-card.side img {
+            width: 110%;
+            height: 110%;
+            object-fit: cover;
+            transform: scale(1.06);
+        }
+
+        /* add a soft vertical "cylinder" strip behind each side image to suggest curvature */
+        .photo-card.side::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background: linear-gradient(90deg, rgba(255,255,255,0.04), rgba(0,0,0,0.06), rgba(255,255,255,0.02));
+            mix-blend-mode: overlay;
+            transform: translateZ(-10px);
+        }
+
+        /* small border/edge highlight on center image for emphasis */
+        .photo-card.center::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 12px;
+            box-shadow: inset 0 0 0 4px rgba(255,255,255,0.02);
+            pointer-events: none;
+        }
+
+        /* make images responsive */
+        @media (max-width: 900px) {
+            .photo-stage { height: 300px; }
+            .photo-card.center { width: 300px; height: 300px; transform: translateZ(80px); }
+            .carousel { gap: 22px; }
+        }
+        @media (max-width: 640px) {
+            .photo-stage { height: auto; padding: 30px 10px; }
+            .carousel { flex-direction: column; gap: 16px; transform: none; }
+            .photo-card, .photo-card.side { width: 220px; height: 220px; transform: none; filter: none; opacity: 1; }
+            .photo-card.center { width: 260px; height: 260px; transform: none; z-index: 3; }
+            .photo-stage::before { height: 40%; width: 96%; border-radius: 40% / 20%; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">Chanakya Education</div>
+        <nav>
+            <a href="#about">About Us</a>
+            <a href="#courses">Courses</a>
+            <a href="#success">Success Stories</a>
+            <a href="#team">Team</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <div class="news-ticker-container">
+        <div class="news-ticker">
+            <span> Mid-Year Sale! | Master AI, Data Science & GenAI Skills Now!  </span>
+        </div>
+    </div>
+
+    <section id="courses" class="course-section-box">
+        <h2>Our Courses</h2>
+        <div class="courses">
+            <div class="course-card">
+                <h3>771+ AI & Data Science Interview Questions - 2025 Edition</h3>
+                <a class="course-link" href="https://www.udemy.com/course/750-ai-data-science-interview-questions-2025-edition/?couponCode=7FF7D4802B8DF25FBB9B" target="_blank">View Course</a><br>
+                <img src="course-1.png" alt="QR Code">
+            </div>
+            <div class="course-card">
+                <h3>Interview preparation for Generative AI - 2025 Edition, 231+</h3>
+                <a class="course-link" href="https://www.udemy.com/course/interview-preparation-for-generative-ai-genai/?referralCode=6528386711948A5CC516" target="_blank">View Course</a><br>
+                <img src="course-2.png" alt="QR Code">
+            </div>
+            <div class="course-card">
+                <h3>731+ Python Interview Questions: 2025 Edition</h3>
+                <a class="course-link" href="https://www.udemy.com/course/731-python-interview-questions-2025-edition/?referralCode=F6A793A05A5577311342" target="_blank">View Course</a><br>
+                <img src="course-3.png" alt="QR Code">
+            </div>
+        </div>
+    </section>
+
+    <section id="success" class="hero">
+        <div class="hero-text">
+            <h1>Success Stories</h1>
+            <p>We’ve successfully trained 500+ students in cutting-edge technologies including Generative AI, Data Science, Machine Learning, Deep Learning, Cloud Computing, Python, and Artificial Intelligence.
+                Our Learning Resources Speak for Themselves</p>
+
+            <p><strong>
+                "750+ AI & Data Science Interview Questions - 2025 Edition"
+                ★ 4.9/5.0 rating from learners across the globe
+            </strong></p>
+
+            <p><strong>
+                "Interview preparation for Generative AI - 2025 Edition, 210+"
+                ★ 5.0/5.0 rating from learners across the globe
+            </strong></p>
+        </div>
+    </section>
+
+    <!-- ====== START: Image trio (as requested) - placed below Success Stories ====== -->
+
+    <div class="photo-stage" aria-hidden="false">
+        <div class="carousel" role="group" aria-label="Student success photos">
+            <figure class="photo-card side left" aria-hidden="true">
+                <img src="q1.png" alt="Sample Questions">
+            </figure>
+
+            <figure class="photo-card center" aria-hidden="false">
+                <img src="q2.png" alt="Sample Questions">
+            </figure>
+
+            <figure class="photo-card side right" aria-hidden="true">
+                <img src="q3.png" alt="Sample Questions">
+            </figure>
+        </div>
+    </div>
+    <!-- ====== END: Image trio ====== -->
+
+    <script>
+        // Function to rotate image positions
+        function rotateImages() {
+            const carousel = document.querySelector('.carousel');
+            const cards = carousel.querySelectorAll('.photo-card');
+
+            // Remove all classes first
+            cards.forEach(card => {
+                card.classList.remove('left', 'center', 'right', 'side');
+            });
+
+            // Move last element to the front for rotation effect
+            carousel.insertBefore(carousel.lastElementChild, carousel.firstElementChild);
+
+            // Reassign positions
+            const newCards = carousel.querySelectorAll('.photo-card');
+            newCards[0].classList.add('photo-card', 'side', 'left');
+            newCards[1].classList.add('photo-card', 'center');
+            newCards[2].classList.add('photo-card', 'side', 'right');
+        }
+
+        // Rotate every 3 seconds
+        setInterval(rotateImages, 3000);
+    </script>
+
+    <!-- ====== END: Image trio ====== -->
+
+    <section id="about">
+        <h2>About Us</h2>
+        <p>
+            With over 9 years of expertise in AI/ML and 3 years specializing in Generative AI (GenAI), we are passionate about building cutting-edge solutions that merge technical innovation with real business impact. Our journey includes leading transformative projects at one of the Big 3 consulting firms, driving success across industries through strategic AI implementation.
+            We believe in making complex AI concepts simple and accessible. Backed by 9+ years of teaching experience and 6+ years of freelancing, we’ve helped thousands of learners and clients gain hands-on, practical skills that translate directly into real-world applications.
+        </p>
+
+        <h4>What We Do:</h4>
+        <p>
+            Interview Preparation Content:
+            We curate high-quality, role-specific interview questions for GenAI, AI, ML, Data Science, NLP, Deep Learning, Computer Vision, Data Engineering, Business Intelligence (BI), and Cloud technologies.
+        </p>
+
+        <h4>Application Development:</h4>
+        <p>
+            We design and develop intelligent software solutions tailored to the above domains—bringing innovation to life with scalable, production-ready systems.
+            Whether you're preparing for your next big opportunity or looking to build impactful AI solutions, we’re here to guide, support, and innovate with you.
+        </p>
+    </section>
+
+    <section id="team">
+        <h2>Our Founding Team</h2>
+        <div class="team">
+            <div class="team-member"><h4>Shubham Dubey</h4></div>
+            <div class="team-member"><h4>Rajat Sharma</h4></div>
+            <div class="team-member"><h4>Sachin Arora</h4></div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2>Contact</h2>
+        <p>Email: <strong>chanakyaeducationemail@gmail.com</strong></p>
+        <p>For inquiries, please reach out to us via email. We look forward to connecting with you!</p>
+    </section>
+
+    <footer>
+        &copy; 2025 Chanakya Education. All rights reserved.
+    </footer>
+
+</body>
+</html>
