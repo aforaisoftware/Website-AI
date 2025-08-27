@@ -1,8 +1,14 @@
 # Use the official NGINX image
 FROM nginx:alpine
 
-# Copy all files to the default NGINX public folder
+# Copy your site files into the NGINX html folder
 COPY . /usr/share/nginx/html
 
-# Expose port 80
-EXPOSE 80
+# Render sets PORT dynamically, so we update Nginx config to use it
+RUN sed -i "s/listen       80;/listen       ${PORT};/" /etc/nginx/conf.d/default.conf
+
+# Expose Render's port (not strictly required, but good practice)
+EXPOSE 10000
+
+# Start Nginx
+CMD ["nginx", "-g", "daemon off;"]
